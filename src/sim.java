@@ -49,19 +49,24 @@ public abstract class sim {
 			for(int i=0;i<no_devices;i++)
 			{
 				int winslot = (int)(diceRoll4devices.get(i)*cWin);//the slot in which it should send 
-				if(slots.get(winslot)==0)
+				if(slots.get(winslot)==0)//keeps track of how many devices were successful
 				{
 					sent +=1;
 				}else if (slots.get(winslot)==1)
 				{
 					sent -=1;
 				}
-				slots.set(winslot, slots.get(winslot)+1);
-				last = winslot>last?winslot:last;
+				slots.set(winslot, slots.get(winslot)+1);//updates how many devices sent in winslot slot of the current window
+				last = winslot>last?winslot:last;//keeps track of the last slot used in the current window
 			}
 			
-			no_devices -= sent;
-			latency += last;
+			no_devices -= sent;//updates the number of devices remaining
+			if(no_devices==0)//updates latency
+			{
+				latency += last;
+			}else {
+				latency += cWin;
+			}
 			
 		}
 		
