@@ -1,3 +1,11 @@
+/*
+ * Muhammad Hamza Ali
+ * ma1973
+ * Programming Assignment 3 Linear.java
+ * 
+ */
+
+//class extending abstract sim class to implement getWindow method for Linear Back-off
 public class Linear extends sim{
 
 	public Linear(int current_window) {

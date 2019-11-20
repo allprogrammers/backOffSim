@@ -19,4 +19,4 @@ myBackoff.class: myBackoff.java
 	$(JCC) $(JFLAGS) myBackoff.java
 
 clean: 
-	$(RM) Binary.class Linear.class Logarithmic.class sim.class myBackoff.class
+	$(RM) linearLatency.txt binaryLatency.txt logLatency.txt Binary.class Linear.class Logarithmic.class sim.class myBackoff.class

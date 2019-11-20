@@ -1,6 +1,14 @@
+/*
+ * Muhammad Hamza Ali
+ * ma1973
+ * Programming Assignment 3 sim.java
+ * 
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 
+//abstract class implementing common methods and attributes for all backoffs
 public abstract class sim {
 	public int current_window;
 	
@@ -8,23 +16,10 @@ public abstract class sim {
 		this.current_window = current_window;
 	}
 	
+	//gives a random number(0<=x<=1) ArrayList of length=length
+	//think about this as a dice roll with for each of the device.
 	public ArrayList<Double> diceRoll(int length)
 	{
-		/*ArrayList<Double> list = new ArrayList<>(length-1);
-		for(int i=0;i<length-1;i++)
-		{
-			list.set(i, Math.random());
-		}
-		
-		ArrayList<Double> sortedRand = list.stream().sorted().collect(Collectors.toCollection(ArrayList<Double>::new));
-		sortedRand.add(1.0);
-		sortedRand.add(0, 0.0);
-		ArrayList<Double> summing2one = new ArrayList<Double>(sortedRand.size()-1);
-		for(int i=0;i<summing2one.size();i++)
-		{
-			summing2one.set(i,sortedRand.get(i+1)-sortedRand.get(i));
-		}
-		return summing2one;*/
 		
 		ArrayList<Double> rand = new ArrayList<Double>();
 		for(int i=0;i<length;i++)
@@ -35,50 +30,44 @@ public abstract class sim {
 		
 	}
 	
+	//given a device number this method uses the class's abstract method to return the Latency 
 	public int simulate(int no_devices)
 	{
 		int latency=0;
+		
+		//while there are still devices
 		while(no_devices>0)
 		{
 			int cWin = getWindow();
-			ArrayList<Integer> pkinwin = new ArrayList<Integer>(Collections.nCopies(cWin, 0));
+			
+			//keeps track of how many devices tried to send in ith slot
+			ArrayList<Integer> slots = new ArrayList<Integer>(Collections.nCopies(cWin, 0));
+			//random numbers for each device showing which slot
 			ArrayList<Double> diceRoll4devices = diceRoll(no_devices);
-			int i=0;
-			while(i<no_devices)
+			int sent = 0;
+			int last = 0;
+			for(int i=0;i<no_devices;i++)
 			{
-				int winslot = (int)(diceRoll4devices.get(i)*cWin);
-				pkinwin.set(winslot, pkinwin.get(winslot)+1);
-				i++;
+				int winslot = (int)(diceRoll4devices.get(i)*cWin);//the slot in which it should send 
+				if(slots.get(winslot)==0)
+				{
+					sent +=1;
+				}else if (slots.get(winslot)==1)
+				{
+					sent -=1;
+				}
+				slots.set(winslot, slots.get(winslot)+1);
+				last = winslot>last?winslot:last;
 			}
 			
-			i = 0;
-			while(i<cWin)
-			{
-				if(pkinwin.get(i)==1)
-				{
-					no_devices-=1;
-				}
-				i++;
-			}
-			if(no_devices==0)
-			{
-				i=0;
-				int toadd = 0;
-				while(i<cWin)
-				{
-					if(pkinwin.get(i)==1)
-						toadd=i;
-					i++;
-				}
-				latency += toadd;
-			}else
-			{
-				latency += cWin;
-			}
+			no_devices -= sent;
+			latency += last;
+			
 		}
 		
 		return latency;
 	}
 	
+	//this will be implemented by the classes extending this class
 	public abstract int getWindow();
 }

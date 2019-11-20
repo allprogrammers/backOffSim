@@ -1,3 +1,11 @@
+/*
+ * Muhammad Hamza Ali
+ * ma1973
+ * Programming Assignment 3 Logarithmic.java
+ * 
+ */
+
+//class extending abstract sim class to implement getWindow method for Logarithmic Back-off
 public class Logarithmic extends sim{
 
 	public Logarithmic(int current_window) {
