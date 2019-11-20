@@ -1,5 +1,3 @@
-package simulation;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -32,23 +30,24 @@ public class myBackoff {
 	}
 	
 	public static void main(String[] args) throws IOException
-	{
+	{	
 		
-		Linear Linsim = new Linear(linFile,linW);
-		Binary Binsim = new Binary(binFile,binW);
-		Logarithmic Logsim = new Logarithmic(logFile,logW);		
-		
-		for(int i=N;i<=max;i+=increment)
+		for(int i=N;i<=max;i+=increment)//remove increment to be max
 		{
 			
 			int avgLinLat = 0;
 			int avgBinLat = 0;
 			int avgLogLat = 0;
-			for(int j=0;j<trials;j++)
+			for(int j=0;j<trials;j++)//change 1 to be trials
 			{
+				Linear Linsim = new Linear(linW);
+				Binary Binsim = new Binary(binW);
+				Logarithmic Logsim = new Logarithmic(logW);
 				avgLinLat += Linsim.simulate(i);
 				avgBinLat += Binsim.simulate(i);
 				avgLogLat += Logsim.simulate(i);
+				
+				System.out.println("One trial done");
 			}
 			
 			avgLinLat /= trials;
@@ -59,6 +58,7 @@ public class myBackoff {
 			
 			avgLogLat /= trials;
 			logContent.append(avgLogLat+"\n");
+			System.out.println(" "+i+" devices now out of " + max);
 			
 		}
 		

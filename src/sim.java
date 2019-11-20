@@ -1,15 +1,10 @@
-package simulation;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
 public abstract class sim {
-
-	public String filename;
 	public int current_window;
 	
-	public sim(String filename, int current_window) {
-		this.filename = filename;
+	public sim(int current_window) {
 		this.current_window = current_window;
 	}
 	
@@ -31,10 +26,10 @@ public abstract class sim {
 		}
 		return summing2one;*/
 		
-		ArrayList<Double> rand = new ArrayList<Double>(length);
+		ArrayList<Double> rand = new ArrayList<Double>();
 		for(int i=0;i<length;i++)
 		{
-			rand.set(i, Math.random());
+			rand.add(Math.random());
 		}
 		return rand;
 		
@@ -57,10 +52,12 @@ public abstract class sim {
 			}
 			
 			i = 0;
-			while(i<no_devices)
+			while(i<cWin)
 			{
 				if(pkinwin.get(i)==1)
+				{
 					no_devices-=1;
+				}
 				i++;
 			}
 			if(no_devices==0)

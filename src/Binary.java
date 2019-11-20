@@ -1,9 +1,7 @@
-package simulation;
-
 public class Binary extends sim{
 
-	public Binary(String filename, int current_window) {
-		super(filename, current_window);
+	public Binary(int current_window) {
+		super(current_window);
 		// TODO Auto-generated constructor stub
 	}
 
